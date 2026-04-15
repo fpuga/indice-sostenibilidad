@@ -15,8 +15,9 @@ The "Sustainability Index" (IS-JMP) is a digital tool designed to help Water Com
 ## Workflow
 
 1. Implement the changes using Red/Green TDD
-2. Format the code. `npm run format`
-3. Lint the code, and fix the errors if any. `npm run lint`
+2. If a code or test file has more that 500 lines refactor it using Red/Green TDD
+3. Format the code. `npm run format`
+4. Lint the code, and fix the errors if any. `npm run lint`
 
 ## Commands
 
@@ -46,7 +47,6 @@ Read these files only when your specific task requires the information they cont
 1. **Source of Truth:** For all calculations and scoring logic, `docs/scoring-engine-spec.md` is the definitive reference.
 2. **Data Consistency:** Use the identifiers defined in `docs/cuestionario-data-dictionary-draft.md` to ensure a consistent data model from form entry to scoring output.
 3. **No Batching:** When implementing forms, handle one CAPS record at a time (rows in Excel = sessions in Web App).
-4. **TDD:** Never write implementation code for the scoring engine without a corresponding test file in `tests/`.
 
 ## Architecture & Folder Structure
 
