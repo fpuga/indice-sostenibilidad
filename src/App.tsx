@@ -4,7 +4,9 @@ import theme from './theme';
 import MainLayout from './components/common/MainLayout';
 import Dashboard from './components/Dashboard';
 import CapsList from './components/caps/CapsList';
+import CapsForm from './components/caps/CapsForm';
 import AssessmentList from './components/assessment/AssessmentList';
+import AssessmentForm from './components/assessment/AssessmentForm';
 
 function App() {
   return (
@@ -14,12 +16,11 @@ function App() {
           <Route path="/" element={<MainLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="caps" element={<CapsList />} />
-            <Route path="caps/new" element={<div>Formulario Nuevo CAPS (Próximamente)</div>} />
+            <Route path="caps/new" element={<CapsForm />} />
+            <Route path="caps/:id" element={<CapsForm />} />
             <Route path="assessments" element={<AssessmentList />} />
-            <Route
-              path="assessments/new"
-              element={<div>Formulario Nueva Encuesta (Próximamente)</div>}
-            />
+            <Route path="assessments/new" element={<AssessmentForm />} />
+            <Route path="assessments/:id" element={<AssessmentForm />} />
             {/* Fallback */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>

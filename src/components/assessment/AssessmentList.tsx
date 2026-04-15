@@ -27,12 +27,15 @@ import { AssessmentService } from '../../services/storage/AssessmentService';
 import { CapsService } from '../../services/storage/CapsService';
 import type { Assessment, AssessmentResult } from '../../domain/types/models';
 
+import { useNavigate, Link } from 'react-router-dom';
+
 interface AssessmentWithCaps extends Assessment {
   capsName?: string;
   result?: AssessmentResult;
 }
 
 const AssessmentList: React.FC = () => {
+  const navigate = useNavigate();
   const [view, setView] = useState('table');
   const [assessments, setAssessments] = useState<AssessmentWithCaps[]>([]);
   const [loading, setLoading] = useState(true);
@@ -110,7 +113,11 @@ const AssessmentList: React.FC = () => {
                 )}
               </TableCell>
               <TableCell align="right">
-                <IconButton size="small" title="Ver Resultados">
+                <IconButton
+                  size="small"
+                  title="Ver Resultados"
+                  onClick={() => navigate(`/assessments/${row.id}`)}
+                >
                   <VisibilityIcon fontSize="small" />
                 </IconButton>
               </TableCell>
@@ -169,7 +176,7 @@ const AssessmentList: React.FC = () => {
         <Typography variant="h4" sx={{ fontWeight: 700 }}>
           Encuestas de Sostenibilidad
         </Typography>
-        <Button variant="contained" startIcon={<AddIcon />}>
+        <Button variant="contained" startIcon={<AddIcon />} component={Link} to="/assessments/new">
           Nueva Encuesta
         </Button>
       </Stack>

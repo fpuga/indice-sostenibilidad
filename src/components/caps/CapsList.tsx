@@ -29,11 +29,14 @@ import { CapsService } from '../../services/storage/CapsService';
 import { AssessmentService } from '../../services/storage/AssessmentService';
 import type { CAPS, Assessment, AssessmentResult } from '../../domain/types/models';
 
+import { useNavigate, Link } from 'react-router-dom';
+
 interface CapsWithLatestScore extends CAPS {
   latestAssessment?: Assessment & { result?: AssessmentResult };
 }
 
 const CapsList: React.FC = () => {
+  const navigate = useNavigate();
   const [view, setView] = useState('table');
   const [capsData, setCapsData] = useState<CapsWithLatestScore[]>([]);
   const [loading, setLoading] = useState(true);
@@ -119,10 +122,19 @@ const CapsList: React.FC = () => {
                 )}
               </TableCell>
               <TableCell align="right">
-                <IconButton size="small" title="Ver Detalles">
+                <IconButton
+                  size="small"
+                  title="Ver/Editar Detalles"
+                  onClick={() => navigate(`/caps/${row.id}`)}
+                >
                   <VisibilityIcon fontSize="small" />
                 </IconButton>
-                <IconButton size="small" color="primary" title="Nueva Encuesta">
+                <IconButton
+                  size="small"
+                  color="primary"
+                  title="Nueva Encuesta"
+                  onClick={() => navigate(`/assessments/new?capsId=${row.id}`)}
+                >
                   <AssessmentIcon fontSize="small" />
                 </IconButton>
               </TableCell>
@@ -204,7 +216,7 @@ const CapsList: React.FC = () => {
         <Typography variant="h4" sx={{ fontWeight: 700 }}>
           Comités (CAPS)
         </Typography>
-        <Button variant="contained" startIcon={<AddIcon />}>
+        <Button variant="contained" startIcon={<AddIcon />} component={Link} to="/caps/new">
           Nuevo CAPS
         </Button>
       </Stack>
