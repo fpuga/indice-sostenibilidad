@@ -1,4 +1,4 @@
-import { ManagementProblem } from '../types/models';
+import type { ManagementProblem } from '../types/models';
 
 /**
  * C9. Autogestión

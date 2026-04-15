@@ -79,8 +79,41 @@ src/
 └── store/            # Global state (optional, e.g., Zustand or Context)
 ```
 
-### Development Priority
+### UI/UX & Navigation (Phase 0)
 
-1. **Domain Isolation:** Keep scoring logic pure and highly testable.
-2. **Persistence Flexibility:** Ensure the storage layer can be swapped for a real API in the future.
-3. **Component Simplicity:** React components should focus on data display and collection.
+**Aesthetic:** "Aqua-Industrial" (Professional, authoritative, clean).
+
+- **Fonts:** Archivo (Headings), Public Sans (Body).
+- **Colors:** Deep Water Blue (#004C8C), Success Green (#2E7D32), Warning Amber (#F57C00), Error Red (#D32F2F).
+
+**Layout:**
+
+- **Top Nav (Level 1):** Global links (Dashboard, CAPS, Encuestas) + User Profile.
+- **Side Nav (Level 2):** Context-aware, collapsible navigation for sub-modules and form sections.
+- **Main Content:** Modular "Ficha" style with view switchers (Table/Cards/Map) for listings.
+
+### Development Priority & Roadmap
+
+1. **Phase 1: Layout & Core Infrastructure**
+   - Theme Setup (MUI + Custom Fonts).
+   - Global Layout (Fixed TopNav, Collapsible SideNav).
+   - Basic Routing (React Router).
+   - _Final Todo:_ Commit changes.
+
+2. **Phase 2: Information Views**
+   - Dashboard (Summary Stats).
+   - CAPS Management (List with Table/Cards/Map views).
+   - Encuestas Management (Historical listing).
+   - _Final Todo:_ Commit changes.
+
+3. **Phase 3: Data Entry Engine (Forms)**
+   - Stepped Form Framework.
+   - Sectioned Survey (Criteria C1-C9).
+   - Dynamic Data Entry (MUI + Validation).
+   - _Final Todo:_ Commit changes.
+
+4. **Phase 4: Integration & Polish**
+   - LocalStorage Repository Pattern.
+   - Real-time Scoring Engine feedback in forms.
+   - Final UX refinements and Transitions.
+   - _Final Todo:_ Commit changes.

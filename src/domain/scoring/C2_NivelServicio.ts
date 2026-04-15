@@ -1,4 +1,4 @@
-import { Assessment } from '../types/models';
+import type { Assessment } from '../types/models';
 
 /**
  * C2. Nivel de Servicio

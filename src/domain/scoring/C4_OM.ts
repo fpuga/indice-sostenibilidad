@@ -1,4 +1,4 @@
-import { Assessment } from '../types/models';
+import type { Assessment } from '../types/models';
 
 /**
  * C4. Operación y Mantenimiento (O&M)

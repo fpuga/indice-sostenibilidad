@@ -1,4 +1,4 @@
-import { Assessment } from '../types/models';
+import type { Assessment } from '../types/models';
 
 /**
  * C5. GIRH (Gestión Integrada de Recursos Hídricos)

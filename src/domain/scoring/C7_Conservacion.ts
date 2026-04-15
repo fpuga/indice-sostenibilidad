@@ -1,4 +1,4 @@
-import { Assessment, SystemType } from '../types/models';
+import type { Assessment, SystemType } from '../types/models';
 
 /**
  * C7. Conservación (Infrastructure)

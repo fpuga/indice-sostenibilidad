@@ -1,4 +1,4 @@
-import { Assessment, BoardMember, Assembly, SystemType } from '../types/models';
+import type { Assessment, BoardMember, Assembly, SystemType } from '../types/models';
 
 /**
  * C1. Organización

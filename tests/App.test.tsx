@@ -3,9 +3,10 @@ import { describe, it, expect } from 'vitest';
 import App from '../src/App';
 
 describe('App', () => {
-  it('renders a heading', () => {
+  it('renders branding and navigation', () => {
     render(<App />);
-    const heading = screen.getByRole('heading', { level: 1 });
-    expect(heading).toBeInTheDocument();
+    expect(screen.getByText('IS-JMP')).toBeInTheDocument();
+    expect(screen.getByText('Dashboard')).toBeInTheDocument();
+    expect(screen.getByText('CAPS')).toBeInTheDocument();
   });
 });
