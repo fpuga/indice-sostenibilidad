@@ -238,6 +238,9 @@ export interface Assessment {
     genderAdendum: boolean;
     genderActionsCompliance: boolean;
   };
+  boardMembers?: BoardMember[];
+  assemblies?: Assembly[];
+  problems?: ManagementProblem[];
 }
 
 export interface AssessmentResult {

@@ -1,5 +1,7 @@
 import type { CAPS } from '../../domain/types/models';
 
+const STORAGE_KEY = 'is_jmp_caps';
+
 const MOCK_CAPS: CAPS[] = [
   {
     id: '1',
@@ -36,11 +38,51 @@ const MOCK_CAPS: CAPS[] = [
   },
 ];
 
+const getStoredCaps = (): CAPS[] => {
+  const stored = localStorage.getItem(STORAGE_KEY);
+  if (!stored) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(MOCK_CAPS));
+    return MOCK_CAPS;
+  }
+  return JSON.parse(stored);
+};
+
 export const CapsService = {
   getAll: async (): Promise<CAPS[]> => {
-    return MOCK_CAPS;
+    return getStoredCaps();
   },
+
   getById: async (id: string): Promise<CAPS | undefined> => {
-    return MOCK_CAPS.find((c) => c.id === id);
+    return getStoredCaps().find((c) => c.id === id);
+  },
+
+  save: async (caps: Partial<CAPS>): Promise<CAPS> => {
+    const capsList = getStoredCaps();
+    let updatedCaps: CAPS;
+
+    if (caps.id) {
+      const index = capsList.findIndex((c) => c.id === caps.id);
+      if (index !== -1) {
+        updatedCaps = { ...capsList[index], ...caps } as CAPS;
+        capsList[index] = updatedCaps;
+      } else {
+        updatedCaps = caps as CAPS;
+        capsList.push(updatedCaps);
+      }
+    } else {
+      updatedCaps = {
+        ...caps,
+        id: Math.random().toString(36).substr(2, 9),
+      } as CAPS;
+      capsList.push(updatedCaps);
+    }
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(capsList));
+    return updatedCaps;
+  },
+
+  delete: async (id: string): Promise<void> => {
+    const capsList = getStoredCaps().filter((c) => c.id !== id);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(capsList));
   },
 };

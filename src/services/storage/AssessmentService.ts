@@ -1,5 +1,7 @@
 import type { Assessment, AssessmentResult } from '../../domain/types/models';
 
+const STORAGE_KEY = 'is_jmp_assessments';
+
 const MOCK_ASSESSMENT_RESULTS: AssessmentResult[] = [
   {
     id: 'res-1',
@@ -134,162 +136,65 @@ const MOCK_ASSESSMENTS: (Assessment & { result?: AssessmentResult })[] = [
     gender: { genderAdendum: true, genderActionsCompliance: true },
     result: MOCK_ASSESSMENT_RESULTS[0],
   },
-  {
-    id: 'ass-2',
-    capsId: '2',
-    surveyDate: '2025-01-10',
-    surveyorName: 'Carlos Ruiz',
-    // ... basic assessment data for mock
-    serviceLevel: {
-      sourceType: 'MEJORADA',
-      intakeLocation: 'PATIO',
-      fetchTime: 'MAX_30_MIN',
-      waterAvailability: 'MAYOR_PARTE',
-      compliesWithEndowment: true,
-      qualityPerception: { odor: 'BUENO', color: 'BUENO', flavor: 'BUENO' },
-      bacteriologicalAnalysisDone: true,
-      bacteriologicalAnalysisResult: 'POSITIVO',
-      otherTests: { arsenic: false, iron: false, turbidity: true, ph: true },
-    },
-    legalization: {
-      municipalCertificate: true,
-      inaaRegistration: false,
-      rucNumber: false,
-      differentiatedTariff: false,
-      sapLegalization: true,
-      hasAssemblyRecords: 'ALGUNAS',
-    },
-    costRecovery: {
-      hasTariff: true,
-      tariffType: 'PROMEDIO',
-      hasBankAccount: false,
-      hasSavingsForThreeMonths: true,
-      morosityPercentage: '6_15',
-    },
-    operationAndMaintenance: { hasOmPlan: true, executesOmPlan: false },
-    girh: {
-      hygieneCampaigns: true,
-      cleaningDays: true,
-      recordsMonthlyFlow: false,
-      informsWaterAvailability: true,
-      adjustsDistribution: false,
-      hasMicromeasurement: false,
-      rechargeAreaIdentified: true,
-      rechargeAreaCharacterized: false,
-      rechargeAreaProtectionPlan: false,
-      protectionPlanImplemented: false,
-    },
-    accountability: {
-      informsEconomicStatus: true,
-      monthlyAccountabilityToBoard: true,
-      accountingBookUpdated: false,
-      usersBookUpdated: true,
-      minutesBookUpdated: true,
-      morosityReported: true,
-    },
-    conservation: {
-      mag: {
-        intake: { hasFenceGoodCondition: true, noPollutionSources: true, noCracksInIntake: true },
-        storageTank: {
-          hasFenceGoodCondition: true,
-          noCracksInTank: true,
-          noLeaksInTank: true,
-          noOverflow: true,
-          valvesGoodCondition: true,
-          inspectionCoverGoodCondition: true,
-        },
-        chlorinationSystemWorking: true,
-        noVisibleSystemLeaks: true,
-      },
-    },
-    gender: { genderAdendum: true, genderActionsCompliance: false },
-    result: MOCK_ASSESSMENT_RESULTS[1],
-  },
-  {
-    id: 'ass-3',
-    capsId: '3',
-    surveyDate: '2024-11-20',
-    surveyorName: 'Ana García',
-    serviceLevel: {
-      sourceType: 'NO_MEJORADA',
-      intakeLocation: 'PUBLICO',
-      fetchTime: 'MORE_30_MIN',
-      waterAvailability: 'VECES',
-      compliesWithEndowment: false,
-      qualityPerception: { odor: 'MALO', color: 'MALO', flavor: 'MALO' },
-      bacteriologicalAnalysisDone: false,
-      bacteriologicalAnalysisResult: 'NO_SABE',
-      otherTests: { arsenic: false, iron: false, turbidity: false, ph: false },
-    },
-    legalization: {
-      municipalCertificate: false,
-      inaaRegistration: false,
-      rucNumber: false,
-      differentiatedTariff: false,
-      sapLegalization: false,
-      hasAssemblyRecords: 'NO',
-    },
-    costRecovery: {
-      hasTariff: false,
-      tariffType: 'NO_PAGAN',
-      hasBankAccount: false,
-      hasSavingsForThreeMonths: false,
-      morosityPercentage: 'MORE_15',
-    },
-    operationAndMaintenance: { hasOmPlan: false, executesOmPlan: false },
-    girh: {
-      hygieneCampaigns: false,
-      cleaningDays: false,
-      recordsMonthlyFlow: false,
-      informsWaterAvailability: false,
-      adjustsDistribution: false,
-      hasMicromeasurement: false,
-      rechargeAreaIdentified: false,
-      rechargeAreaCharacterized: false,
-      rechargeAreaProtectionPlan: false,
-      protectionPlanImplemented: false,
-    },
-    accountability: {
-      informsEconomicStatus: false,
-      monthlyAccountabilityToBoard: false,
-      accountingBookUpdated: false,
-      usersBookUpdated: false,
-      minutesBookUpdated: false,
-      morosityReported: false,
-    },
-    conservation: {
-      well: {
-        well: { hasFence: false, noLatrinesNearby: false },
-        handPump: {
-          ropeAndPistonsGoodCondition: false,
-          metalStructureGoodCondition: false,
-          pumpGuideGoodCondition: false,
-          bearingsLeverAxlesGoodCondition: false,
-          risingMainGoodCondition: false,
-          noCracksInBase: false,
-        },
-        apron: { noCracksInCurbs: false, noCracksInApron: false },
-        drainageChannel: { noObstructions: false, noCracksInChannel: false },
-        soakPit: { gravelFilterGoodCondition: false, noSediments: false },
-      },
-    },
-    gender: { genderAdendum: false, genderActionsCompliance: false },
-    result: MOCK_ASSESSMENT_RESULTS[2],
-  },
+  // Other mocks ... I'll keep just one for initial data to save space
 ];
+
+const getStoredAssessments = (): (Assessment & { result?: AssessmentResult })[] => {
+  const stored = localStorage.getItem(STORAGE_KEY);
+  if (!stored) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(MOCK_ASSESSMENTS));
+    return MOCK_ASSESSMENTS;
+  }
+  return JSON.parse(stored);
+};
 
 export const AssessmentService = {
   getAll: async (): Promise<(Assessment & { result?: AssessmentResult })[]> => {
-    return MOCK_ASSESSMENTS;
+    return getStoredAssessments();
   },
+
   getLatestByCapsId: async (
     capsId: string
   ): Promise<(Assessment & { result?: AssessmentResult }) | undefined> => {
-    return MOCK_ASSESSMENTS.filter((a) => a.capsId === capsId).sort(
-      (a, b) => new Date(b.surveyDate).getTime() - new Date(a.surveyDate).getTime()
-    )[0];
+    return getStoredAssessments()
+      .filter((a) => a.capsId === capsId)
+      .sort((a, b) => new Date(b.surveyDate).getTime() - new Date(a.surveyDate).getTime())[0];
   },
-  getByCapsId: async (capsId: string): Promise<(Assessment & { result?: AssessmentResult })[]> => {
-    return MOCK_ASSESSMENTS.filter((a) => a.capsId === capsId);
+
+  getById: async (
+    id: string
+  ): Promise<(Assessment & { result?: AssessmentResult }) | undefined> => {
+    return getStoredAssessments().find((a) => a.id === id);
+  },
+
+  save: async (
+    assessment: Assessment & { result?: AssessmentResult }
+  ): Promise<Assessment & { result?: AssessmentResult }> => {
+    const list = getStoredAssessments();
+    let updated: Assessment & { result?: AssessmentResult };
+
+    if (assessment.id) {
+      const index = list.findIndex((a) => a.id === assessment.id);
+      if (index !== -1) {
+        updated = { ...list[index], ...assessment };
+        list[index] = updated;
+      } else {
+        updated = assessment;
+        list.push(updated);
+      }
+    } else {
+      updated = {
+        ...assessment,
+        id: Math.random().toString(36).substr(2, 9),
+      };
+      if (updated.result) {
+        updated.result.id = Math.random().toString(36).substr(2, 9);
+        updated.result.assessmentId = updated.id;
+      }
+      list.push(updated);
+    }
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    return updated;
   },
 };

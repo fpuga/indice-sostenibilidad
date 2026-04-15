@@ -66,8 +66,7 @@ const CapsForm: React.FC = () => {
   };
 
   const handleSave = async () => {
-    // Phase 4 will implement real saving
-    console.log('Guardando CAPS:', formData);
+    await CapsService.save(formData);
     navigate('/caps');
   };
 
