@@ -11,7 +11,7 @@ import AssessmentForm from './components/assessment/AssessmentForm';
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <BrowserRouter>
+      <BrowserRouter basename={import.meta.env.BASE_URL}>
         <Routes>
           <Route path="/" element={<MainLayout />}>
             <Route index element={<Dashboard />} />
