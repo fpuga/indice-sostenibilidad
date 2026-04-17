@@ -10,10 +10,15 @@ import {
   Menu,
   MenuItem,
 } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 import { Link, useLocation } from 'react-router-dom';
 import WaterDropIcon from '@mui/icons-material/WaterDrop';
 
-const TopNav: React.FC = () => {
+interface TopNavProps {
+  onDrawerToggle: () => void;
+}
+
+const TopNav: React.FC<TopNavProps> = ({ onDrawerToggle }) => {
   const location = useLocation();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -30,9 +35,21 @@ const TopNav: React.FC = () => {
   return (
     <AppBar
       position="fixed"
-      sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, backgroundColor: 'primary.main' }}
+      sx={{
+        zIndex: (theme) => theme.zIndex.drawer + 1,
+        backgroundColor: 'primary.main',
+      }}
     >
       <Toolbar>
+        <IconButton
+          color="inherit"
+          aria-label="open drawer"
+          edge="start"
+          onClick={onDrawerToggle}
+          sx={{ mr: 2, display: { md: 'none' } }}
+        >
+          <MenuIcon />
+        </IconButton>
         <WaterDropIcon sx={{ mr: 1 }} />
         <Typography
           variant="h6"
@@ -41,8 +58,7 @@ const TopNav: React.FC = () => {
         >
           IS-JMP
         </Typography>
-
-        <Box sx={{ flexGrow: 1, display: 'flex', gap: 2 }}>
+        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, gap: 2 }}>
           <Button
             component={Link}
             to="/"
@@ -80,7 +96,7 @@ const TopNav: React.FC = () => {
             Encuestas
           </Button>
         </Box>
-
+        <Box sx={{ flexGrow: { xs: 1, md: 0 } }} /> {/* Spacer for mobile */}
         <Box>
           <IconButton onClick={handleMenu} color="inherit">
             <Avatar sx={{ width: 32, height: 32, bgcolor: 'secondary.main', fontSize: '0.875rem' }}>
